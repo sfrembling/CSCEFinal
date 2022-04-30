@@ -1,11 +1,16 @@
 mod quest;
 
 use rand;
-use std::{process, io::{self, Write}};
+use std::{
+    io::{self, Write},
+    process,
+};
 
 fn main() {
     println!("This program will present you with a 'quest' as if you were playing a video game.");
-    println!("There is a 50/50 chance that it was either written by hand or procedurally generated.");
+    println!(
+        "There is a 50/50 chance that it was either written by hand or procedurally generated."
+    );
     println!("Choose wisely as to which one you think it is.\n\n");
     main_loop();
 }
@@ -27,7 +32,7 @@ fn main_loop() {
 
         // If this is true, then generate a new quest. Otherwise, use a premade quest.
         let chosen_quest = if rand::random() {
-            quest::Quest::new()     // generate a new quest
+            quest::Quest::new() // generate a new quest
         } else {
             quest::Quest::premade() // use a premade quest
         };

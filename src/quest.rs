@@ -1,9 +1,12 @@
-use std::{io::{BufRead, BufReader}, fs::File};
+use std::{
+    fs::File,
+    io::{BufRead, BufReader},
+};
 
 use rand::prelude::IteratorRandom;
 
 pub struct Quest {
-    data: String
+    data: String,
 }
 
 impl std::fmt::Display for Quest {
@@ -14,17 +17,24 @@ impl std::fmt::Display for Quest {
 
 impl Quest {
     pub fn new() -> Quest {
-        Quest { data: Quest::generate() }
+        Quest {
+            data: Quest::generate(),
+        }
     }
 
     pub fn premade() -> Quest {
         let premade_file = File::open("data/premade").unwrap();
-        let quest = BufReader::new(premade_file).lines().choose(&mut rand::thread_rng());
-        Quest { data: quest.unwrap().unwrap() }
+        let quest_data = BufReader::new(premade_file)
+            .lines()
+            .choose(&mut rand::thread_rng())
+            .unwrap()
+            .unwrap();
+        Quest {
+            data: quest_data,
+        }
     }
 
     fn generate() -> String {
         String::new()
     }
-    
 }
