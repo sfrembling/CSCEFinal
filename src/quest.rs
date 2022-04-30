@@ -5,7 +5,21 @@ use std::{
 
 use rand::prelude::IteratorRandom;
 
-/// A string object that is generated from a file to represent a quest 
+pub enum QuestType {
+    Procedural,
+    Real,
+}
+
+impl QuestType {
+    pub fn matches(&self, value: i32) -> bool {
+        match self {
+            QuestType::Procedural => value == 1,
+            QuestType::Real => value == 2,
+        }
+    }
+}
+
+/// A string object that is generated from a file to represent a quest
 /// in a video game.
 pub struct Quest {
     data: String,
