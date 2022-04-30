@@ -5,6 +5,8 @@ use std::{
 
 use rand::prelude::IteratorRandom;
 
+/// A string object that is generated from a file to represent a quest 
+/// in a video game.
 pub struct Quest {
     data: String,
 }
@@ -16,12 +18,14 @@ impl std::fmt::Display for Quest {
 }
 
 impl Quest {
+    /// A new randomly generated quest
     pub fn new() -> Quest {
         Quest {
             data: Quest::generate(),
         }
     }
 
+    /// A quest that was hand-made
     pub fn premade() -> Quest {
         let premade_file = File::open("data/premade").unwrap();
         let quest_data = BufReader::new(premade_file)
@@ -32,6 +36,7 @@ impl Quest {
         Quest { data: quest_data }
     }
 
+    /// Associated function that generates a quest
     fn generate() -> String {
         // first, acquire a random action
         let action_file = File::open("data/actions").unwrap();
@@ -46,6 +51,8 @@ impl Quest {
         action
     }
 
+    /// Parses an action string (such as `Go find {person}`)
+    /// and translates it to a full string (such as `Go find Jacob`)
     fn parse_action(action: &mut String) {
         // replace all instances of "thing"
         loop {
@@ -56,6 +63,9 @@ impl Quest {
                 .choose(&mut rand::thread_rng())
                 .unwrap()
                 .unwrap();
+            if let Some(_) = action.find(&thing) {
+                continue;
+            }
             *action = action.replacen("{thing}", &thing, 1);
             if start == *action {
                 break;
@@ -70,6 +80,9 @@ impl Quest {
                 .choose(&mut rand::thread_rng())
                 .unwrap()
                 .unwrap();
+            if let Some(_) = action.find(&person) {
+                continue;
+            }
             *action = action.replacen("{person}", &person, 1);
             if start == *action {
                 break;
@@ -84,6 +97,9 @@ impl Quest {
                 .choose(&mut rand::thread_rng())
                 .unwrap()
                 .unwrap();
+            if let Some(_) = action.find(&place) {
+                continue;
+            }
             *action = action.replacen("{place}", &place, 1);
             if start == *action {
                 break;
