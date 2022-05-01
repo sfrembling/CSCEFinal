@@ -1,3 +1,0 @@
-GOTO # Go to {location}
-RET # Return here
-KILLN {} # Kill {} {entity}s

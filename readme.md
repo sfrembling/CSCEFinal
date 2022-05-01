@@ -1,34 +1,69 @@
-## Dialogue
-Dialogue actions should be written as if it was English.
+# Procedural Quest Generator
 
-* You can use `entity`, `item`, and `location` tags.
-* Example: `Please help! I can't find my {item}!`
+by Shea Frembling
 
-## Objectives
-Objective actions are only passed as commands.
-The commands get parsed and each one generates some
-english text.
+---
 
-The following commands are available:
+## How to Use
 
-| Command | Dialogue equivalent | Usage |
-| --- | --- | --- |
-| GOTO | Go to {location} | GOTO
-| FIND | Find {item} | FIND
-| FINDN | Find 5 {item}s | FINDN {number}
-| KILL | Kill {entity} | KILL
-| KILLN | Kill 13 {entities} | KILL {number}
-| RET | Return here | RET
-| LOOT | Take the {item} | LOOT
-| LOOTN | Take 17 {item}s | LOOTN {number}
-| GUARD | Guard the area | GUARD
+To compile: `cargo build --release`  
+To run: `cargo run --release`
 
-When writing commands, use all caps, and separate them with a semicolon, like here (notice the last command doesn't need a semicolon):  
-`GOTO;FINDN {12};RET`
+## Customizing Dialogue
 
-That will generate something like:
+In `data/dialogue/actions` is where you define an action, which is just spoken dialogue
+
+You also place any tag-files in the `data/dialogue` directory
+
+So for example, if I wanted to generate some random quests, I might do the following:
+
 ```
-1. Go to Ravenholm
-2. Find 12 knifes
-3. Return here
+(in data/dialogue/actions)
+Please, won't you help me find my {item}? The villains at {location} took it from me!
+
+(I now need a corresponding file for item and location, so)
+
+(in data/dialogue/item)
+book
+knife
+money
+purse
+bag
+
+(in data/dialogue/location)
+Hogwarts
+UNT
+Boston
+New York
+Dallas
+Caria Manor
+```
+
+## Customizing Objectives
+Objectives are built up by a series of commands, with their definition being placed in `data/objectives/command_dict`
+
+An example of some basic commands is as follows:
+
+```
+(in data/objectives/command_dict)
+GOTO # Go to {location}
+RET # Return here
+KILL {} # Kill {} {enemy}s
+```
+
+Objectives do the same tag-replacement as dialogue does, the only difference being that it is placed into a numbered list. So any tag you use must be placed in data/dialogue.
+
+As shown in the second command, commands don't need to have any tags.
+
+In the third command, by including {} in the command name, you can specify a location to put a number, where a random number [2, 50] will be placed.
+
+An example action:
+```
+(in data/objectives/action)
+GOTO;KILL {};RET;
+
+(resulting output)
+1. Go to Hogwarts
+2. Return here
+3. Kill 14 goblins
 ```
