@@ -11,7 +11,7 @@ english text.
 
 The following commands are available:
 
-| Command | Example | Usage |
+| Command | Dialogue equivalent | Usage |
 | --- | --- | --- |
 | GOTO | Go to {location} | GOTO
 | FIND | Find {item} | FIND
