@@ -1,20 +1,47 @@
+mod dialogue;
+mod objectives;
+mod shared;
+
+
 fn main() {
     loop {
         match UserMode::get_user_mode() {
             UserMode::Dialogue => {
-                todo!(); // generate quest dialogue and display it
+                um_dialogue();
             }
             UserMode::Objectives => {
-                todo!(); // generate quest objectives and display them
+                um_objectives();
             }
+            UserMode::Quit => break,
         }
     }
+}
+
+fn um_dialogue() {
+    let d = dialogue::Dialogue::new();
+
+    print_bar();
+    println!("\n{}\n", d);
+    print_bar();
+}
+
+fn um_objectives() {
+    let o = objectives::Objectives::new();
+
+    print_bar();
+    println!("\n{}\n", o);
+    print_bar();
+}
+
+fn print_bar() {
+    println!("{}", "-".repeat(30));
 }
 
 /// Just decides the mode of operation for the program
 enum UserMode {
     Dialogue,
     Objectives,
+    Quit,
 }
 
 impl UserMode {
@@ -24,6 +51,7 @@ impl UserMode {
         println!("Choose an option from below\n");
         println!("1. Create quest dialogue");
         println!("2. Create quest objectives");
+        println!("3. Quit");
         print!("Enter: ");
 
         let mut input = String::new();
@@ -42,6 +70,7 @@ impl UserMode {
             Ok(value) => match value {
                 1 => UserMode::Dialogue,
                 2 => UserMode::Objectives,
+                3 => UserMode::Quit,
                 _ => err_msg(),
             },
             Err(_) => err_msg(),
