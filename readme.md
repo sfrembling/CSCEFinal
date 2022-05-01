@@ -21,6 +21,7 @@ The following commands are available:
 | RET | Return here | RET
 | LOOT | Take the {item} | LOOT
 | LOOTN | Take 17 {item}s | LOOTN {number}
+| GUARD | Guard the area | GUARD
 
 When writing commands, use all caps, and separate them with a semicolon, like here (notice the last command doesn't need a semicolon):  
 `GOTO;FINDN {12};RET`

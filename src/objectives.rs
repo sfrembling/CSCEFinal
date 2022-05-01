@@ -1,3 +1,5 @@
+use rand::Rng;
+
 use super::shared::choose_random_from_filename;
 
 pub struct Objectives {
@@ -44,7 +46,11 @@ impl Objectives {
 
                 let index2 = parsed[1].find("}").unwrap();
 
-                let n = &parsed[1][index1..index2];
+                let mut n = parsed[1].as_str()[index1..index2].to_owned();
+
+                if &n == "r" {
+                    n = rand::thread_rng().gen_range(5..30).to_string();
+                }
 
                 obj_builder.push(format!("{}. Kill {} {}s", index, n, entity));
 
@@ -66,7 +72,11 @@ impl Objectives {
 
                 let index2 = parsed[1].find("}").unwrap();
 
-                let n = &parsed[1][index1..index2];
+                let mut n = parsed[1].as_str()[index1..index2].to_owned();
+
+                if &n == "r" {
+                    n = rand::thread_rng().gen_range(5..30).to_string();
+                }
 
                 obj_builder.push(format!("{}. Collect {} {}s", index, n, item));
                 index += 1;
@@ -91,7 +101,11 @@ impl Objectives {
 
                 let index2 = parsed[1].find("}").unwrap();
 
-                let n = &parsed[1][index1..index2];
+                let mut n = parsed[1].as_str()[index1..index2].to_owned();
+
+                if &n == "r" {
+                    n = rand::thread_rng().gen_range(5..30).to_string();
+                }
 
                 obj_builder.push(format!("{}. Find {} {}s", index, n, item));
                 index += 1;
@@ -101,6 +115,11 @@ impl Objectives {
                 let item = choose_random_from_filename("data/dialogue/item");
 
                 obj_builder.push(format!("{}. Find a {}", index, item));
+                index += 1;
+                continue;
+            }
+            if parsed[0].starts_with("GUARD") {
+                obj_builder.push(format!("{}. Guard the area", index));
                 index += 1;
                 continue;
             }
