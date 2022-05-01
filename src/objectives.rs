@@ -46,6 +46,9 @@ impl Objectives {
         
         for command in &self.obj_list {
             let command_file = File::open("data/objectives/command_dict").unwrap();
+            if command == "" {
+                break;
+            }
             for line in BufReader::new(&command_file).lines() {
                 match line {
                     Ok(s) => {
