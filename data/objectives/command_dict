@@ -1,0 +1,3 @@
+GOTO # Go to {location}
+RET # Return here
+KILLN {} # Kill {} {item}s

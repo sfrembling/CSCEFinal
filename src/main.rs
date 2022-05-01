@@ -2,8 +2,8 @@ mod dialogue;
 mod objectives;
 mod shared;
 
-use std::io::{self, Write};
 use std::fs::File;
+use std::io::{self, Write};
 
 fn main() {
     loop {

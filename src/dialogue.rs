@@ -22,41 +22,42 @@ impl Dialogue {
         d
     }
 
+    pub fn from(line: &str) -> Dialogue {
+        let mut d = Dialogue {
+            text: line.to_string(),
+        };
+
+        d.generate();
+
+        d
+    }
+
     /// Generate the dialogue given a fresh action string
-    /// 
+    ///
     /// Subsequent calls to this method shouldn't change anything
     pub fn generate(&mut self) {
-        // Replace each instance of a location
         loop {
             let s = self.text.clone();
 
-            let location = choose_random_from_filename("data/dialogue/location");
-
-            self.text = self.text.replacen("{location}", &location, 1);
-
-            if s == *self.text {
-                break;
+            match self.text.find("{") {
+                Some(_) => {}
+                None => break,
             }
-        }
-        // Replace each instance of an entity
-        loop {
-            let s = self.text.clone();
 
-            let entity = choose_random_from_filename("data/dialogue/entity");
+            let index1 = self.text.find("{").unwrap() + 1;
 
-            self.text = self.text.replacen("{entity}", &entity, 1);
-
-            if s == *self.text {
-                break;
+            match self.text.find("}") {
+                Some(_) => {}
+                None => break,
             }
-        }
-        // Replace each instance of an item
-        loop {
-            let s = self.text.clone();
 
-            let item = choose_random_from_filename("data/dialogue/item");
+            let index2 = self.text.find("}").unwrap();
 
-            self.text = self.text.replacen("{item}", &item, 1);
+            let tag = self.text.as_str()[index1..index2].to_owned();
+
+            let result = choose_random_from_filename(&format!("data/dialogue/{}", tag));
+
+            self.text = self.text.replacen(&format!("{{{}}}", tag), &result, 1);
 
             if s == *self.text {
                 break;
@@ -64,6 +65,3 @@ impl Dialogue {
         }
     }
 }
-
-
-

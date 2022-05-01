@@ -1,9 +1,8 @@
 pub fn choose_random_from_filename(name: &str) -> String {
-    use std::fs::File;
-    use std::io::BufReader;
-    use std::io::BufRead;
     use rand::prelude::IteratorRandom;
-
+    use std::fs::File;
+    use std::io::BufRead;
+    use std::io::BufReader;
 
     let f = File::open(name).unwrap();
 
@@ -12,6 +11,6 @@ pub fn choose_random_from_filename(name: &str) -> String {
         .choose(&mut rand::thread_rng())
         .unwrap()
         .unwrap();
-    
+
     result
 }
